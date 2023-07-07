@@ -15,7 +15,7 @@ node {
     def IMAGE = 'cdrx/pyinstaller-linux:python2'
 
     dir("${env.BUILD_ID}") {
-      sh "docker run --rm -v ${VOLUME} ${IMAGE} pyinstaller -F add2vals.py"
+      sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'"
     }
 
     // post {
