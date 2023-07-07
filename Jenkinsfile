@@ -10,4 +10,20 @@ node {
       junit 'test-reports/results.xml'
     } 
   }
+  stage('Deploy') {
+    def VOLUME = "${pwd()}/sources:/src"
+    def IMAGE = 'cdrx/pyinstaller-linux:python2'
+
+    dir("${env.BUILD_ID}") {
+      unstash 'compiled-results'
+      sh "docker run --rm -v ${VOLUME} ${IMAGE} pyinstaller -F add2vals.py"
+    }
+
+    post {
+      success {
+        archiveArtifacts artifacts: "${env.BUILD_ID}/sources/dist/add2vals", fingerprint: true
+        sh "docker run --rm -v ${VOLUME} ${IMAGE} rm -rf build dist"
+      }
+    }
+  }
 }
