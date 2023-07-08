@@ -13,6 +13,17 @@ node {
         junit 'test-reports/results.xml'
     }
 
+    stage('Manual Approval') {
+      input message: 'Lanjutkan ke tahap Deploy?',
+        ok: 'Proceed',
+        submitterParameter: 'APPROVER'
+      if (env.APPROVER == 'Proceed') {
+        echo 'Lanjut ke tahap Deploy'
+      } else {
+        error('Pipeline dihentikan oleh pengguna.')
+      }
+    }
+
     stage('Deploy') {
         dir("${env.BUILD_ID}") {
             unstash 'compiled-results'
@@ -20,29 +31,8 @@ node {
         }
 
         sleep time: 1, unit: 'MINUTES'
-        
+
         archiveArtifacts artifacts: "${env.BUILD_ID}/sources/dist/add2vals", fingerprint: true
         sh "docker run --rm -v ${pwd()}/sources:/src cdrx/pyinstaller-linux:python2 'rm -rf build dist'"
     }
 }
-
-// node {
-//   stage('Build') {
-//     docker.image('python:2-alpine').inside {
-//       sh 'python -m py_compile sources/add2vals.py sources/calc.py'
-//     }      
-//   }
-//   stage('Test') {
-//     docker.image('qnib/pytest').inside {
-//       sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
-//       junit 'test-reports/results.xml'
-//     } 
-//   }
-//   stage('Deploy') {
-//     docker.image('cdrx/pyinstaller-linux:python2').inside {
-//       sh 'pyinstaller --onefile sources/add2vals.py'
-//       archiveArtifacts 'dist/add2vals'
-//     }
-//   }
-// }
-
