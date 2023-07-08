@@ -14,17 +14,8 @@ node {
     }
 
     stage('Manual Approval') {
-      input message: 'Lanjutkan ke tahap Deploy?',
-        ok: 'Proceed',
-        submitterParameter: 'APPROVER'
-      if (env.APPROVER == 'Proceed') {
-        echo 'Lanjut ke tahap Deploy'
-      } else {
-        error('Pipeline dihentikan oleh pengguna.')
-      }
-    }
-
-    stage('Deploy') {
+      input message: 'Lanjutkan ke tahap Deploy?'
+      stage('Deploy') {
         dir("${env.BUILD_ID}") {
             unstash 'compiled-results'
             sh "docker run --rm -v ${pwd()}/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller -F add2vals.py'"
@@ -35,4 +26,5 @@ node {
         archiveArtifacts artifacts: "${env.BUILD_ID}/sources/dist/add2vals", fingerprint: true
         sh "docker run --rm -v ${pwd()}/sources:/src cdrx/pyinstaller-linux:python2 'rm -rf build dist'"
     }
+  }
 }
