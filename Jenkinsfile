@@ -18,10 +18,9 @@ node {
       sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'"
     }
     
-    success {
-      archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals", fingerprint: true
-      sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'" 
-    }
+    archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals", fingerprint: true
+    sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'" 
+    
 
     // post {
     //   success {
