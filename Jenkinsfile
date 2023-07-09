@@ -27,8 +27,7 @@ node {
                         configName: 'My Web Server', 
                         transfers: [
                             sshTransfer(
-                                execCommand: "ssh -o StrictHostKeyChecking=no -i ubuntu@13.250.14.198 \"cd /python-app && mkdir matiusrimbe\"",  
-                                remoteDirectory: '/python-app',
+                                execCommand: "ssh -o StrictHostKeyChecking=no -i ubuntu@13.250.14.198 \"mkdir python-app && cd python-app && mkdir matiusrimbe\"",  
                             )
                         ], 
                         verbose: true
