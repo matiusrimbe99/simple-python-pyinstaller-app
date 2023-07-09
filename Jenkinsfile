@@ -29,7 +29,7 @@ node {
                         configName: 'My Web Server', 
                         transfers: [
                             sshTransfer(
-                                execCommand: "docker run --rm -v ${pwd()}/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller -F add2vals.py'",
+                                execCommand: "sudo docker run --rm -v ${pwd()}/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller -F add2vals.py'",
                                 remoteDirectory: '/python-app',  
                                 removePrefix: 'sources/dist/', 
                                 sourceFiles: 'sources/dist/add2vals'
