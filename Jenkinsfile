@@ -21,8 +21,22 @@ node {
         //     sh "docker run --rm -v ${pwd()}/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller -F add2vals.py'"
         // }
         withCredentials([sshUserPrivateKey(credentialsId: '13.250.14.198', keyFileVariable: '13.250.14.198', usernameVariable: 'ubuntu')]) {
-            def remoteDir = '/python-app'
-            def remoteCommand = "cd $remoteDir && docker run --rm -v $remoteDir/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller -F add2vals.py'"
+            sshPublisher(
+                publishers: [
+                    sshPublisherDesc(
+                        configName: 'My Web Server', 
+                        transfers: [
+                            sshTransfer(
+                                execCommand: "ssh -o StrictHostKeyChecking=no -i ubuntu@13.250.14.198 \"cd /python-app && docker run --rm -v /python-app/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller -F add2vals.py'\"",  
+                                remoteDirectory: '/python-app',  
+                                removePrefix: 'sources/dist/', 
+                                sourceFiles: 'sources/dist/add2vals'
+                            )
+                        ], 
+                        verbose: false
+                    )
+                ]
+            )
         }
 
         
@@ -40,22 +54,7 @@ node {
         //     execCommand: "ssh -o StrictHostKeyChecking=no -i ubuntu@13.250.14.198 \"$remoteCommand\""
         // )
 
-        sshPublisher(
-            publishers: [
-                sshPublisherDesc(
-                    configName: 'My Web Server', 
-                    transfers: [
-                        sshTransfer(
-                            execCommand: "ssh -o StrictHostKeyChecking=no -i ubuntu@13.250.14.198 \"$remoteCommand\"",  
-                            remoteDirectory: '/python-app',  
-                            removePrefix: 'sources/dist/', 
-                            sourceFiles: 'sources/dist/add2vals'
-                        )
-                    ], 
-                    verbose: false
-                )
-            ]
-        )
+        
 
         sleep time: 1, unit: 'MINUTES'
 
