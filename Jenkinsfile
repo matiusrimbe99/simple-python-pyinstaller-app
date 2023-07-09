@@ -32,7 +32,7 @@ node {
                                 remoteDirectory: '/python-app',  
                                 removePrefix: "${env.BUILD_ID}/sources/dist/", 
                                 sourceFiles: "${env.BUILD_ID}/sources/dist/add2vals",
-                                execCommand: "chmod a+x add2vals"
+                                execCommand: "chmod a+x python-app/add2vals"
                             )
                         ], 
                         verbose: true
