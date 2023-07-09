@@ -29,7 +29,7 @@ node {
                             sshTransfer(
                                 remoteDirectory: '/python-app',  
                                 removePrefix: 'sources/dist/', 
-                                sourceFiles: 'sources/dist/add2vals'
+                                sourceFiles: 'sources/dist/add2vals',
                                 execCommand: "cd /python-app && docker run --rm -v /python-app/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller -F add2vals.py'", 
                             )
                         ], 
