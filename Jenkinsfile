@@ -20,7 +20,6 @@ node {
             unstash 'compiled-results'
             sh "docker run --rm -v ${pwd()}/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller -F add2vals.py'"
         }
-        // unstash 'compiled-results'
 
         withCredentials([sshUserPrivateKey(credentialsId: '13.250.14.198', keyFileVariable: '13.250.14.198', usernameVariable: 'ubuntu')]) {
             sshPublisher(
@@ -41,10 +40,10 @@ node {
             )
         }
 
-        // sleep time: 1, unit: 'MINUTES'
+        sleep time: 1, unit: 'MINUTES'
 
-        // archiveArtifacts artifacts: "${env.BUILD_ID}/sources/dist/add2vals", fingerprint: true
-        // sh "docker run --rm -v ${pwd()}/sources:/src cdrx/pyinstaller-linux:python2 'rm -rf build dist'"
+        archiveArtifacts artifacts: "${env.BUILD_ID}/sources/dist/add2vals", fingerprint: true
+        sh "docker run --rm -v ${pwd()}/sources:/src cdrx/pyinstaller-linux:python2 'rm -rf build dist'"
     }
   }
 }
