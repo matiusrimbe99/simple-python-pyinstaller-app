@@ -27,19 +27,18 @@ node {
 
         
 
-        // sshPublisher(
-        //     configName: 'My Web Server',
-        //     transfers: [
-        //         sshTransfer(
-        //             sourceFiles: 'sources/dist/add2vals',
-        //             removePrefix: 'sources/dist/',
-        //             remoteDirectory: remoteDir
-        //         )
-        //     ],
-        //     verbose: true
-        // )
-
-        sh "ssh -o StrictHostKeyChecking=no -i ubuntu@13.250.14.198 \"$remoteCommand\""
+        sshPublisher(
+            configName: 'My Web Server',
+            transfers: [
+                sshTransfer(
+                    sourceFiles: 'sources/dist/add2vals',
+                    removePrefix: 'sources/dist/',
+                    remoteDirectory: remoteDir
+                )
+            ],
+            verbose: true
+            execCommand: "ssh -o StrictHostKeyChecking=no -i ubuntu@13.250.14.198 \"$remoteCommand\""
+        )
 
         sleep time: 1, unit: 'MINUTES'
 
