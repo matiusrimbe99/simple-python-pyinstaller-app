@@ -30,7 +30,7 @@ node {
                         transfers: [
                             sshTransfer(
                                 remoteDirectory: '/python-app',  
-                                removePrefix: 'sources/dist/', 
+                                removePrefix: "${env.BUILD_ID}/sources/dist/", 
                                 sourceFiles: "${env.BUILD_ID}/sources/dist/add2vals"
                             )
                         ], 
