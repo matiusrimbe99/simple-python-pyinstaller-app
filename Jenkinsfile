@@ -27,13 +27,16 @@ node {
                         configName: 'My Web Server', 
                         transfers: [
                             sshTransfer(
-                                remoteDirectory: '/python-app',  
+                                remoteDirectory: 'python-app',  
                                 removePrefix: 'sources/dist/', 
                                 sourceFiles: 'sources/dist/add2vals',
-                                execCommand: "cd /python-app && docker run --rm -v /python-app/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller -F add2vals.py'", 
+                                execCommand: "sudo apt-get update && sudo apt-get install ca-certificates curl gnupg && sudo install -m 0755 -d /etc/apt/keyrings && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg && sudo chmod a+r /etc/apt/keyrings/docker.gpg && echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin && cd python-app && sudo docker run --rm -v python-app/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller -F add2vals.py'", 
                             )
                         ], 
-                        verbose: false
+                        verbose: true
                     )
                 ]
             )
@@ -51,7 +54,7 @@ node {
         //         )
         //     ],
         //     verbose: true
-        //     execCommand: "ssh -o StrictHostKeyChecking=no -i ubuntu@13.250.14.198 \"$remoteCommand\""
+        //     execCommand: "ssh -o StrictHostKeyChecking=no -i ubuntu@13.250.14.198 \"$remoteCommand\"" sudo docker run --rm -v python-app/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller -F add2vals.py'
         // )
 
         
