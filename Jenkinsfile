@@ -46,7 +46,7 @@ node {
                     configName: 'My Web Server', 
                     transfers: [
                         sshTransfer(
-                            execCommand: 'ssh -o StrictHostKeyChecking=no -i ubuntu@13.250.14.198 \\"$remoteCommand\\"',  
+                            execCommand: "ssh -o StrictHostKeyChecking=no -i ubuntu@13.250.14.198 \"$remoteCommand\"",  
                             remoteDirectory: '/python-app',  
                             removePrefix: 'sources/dist/', 
                             sourceFiles: 'sources/dist/add2vals'
