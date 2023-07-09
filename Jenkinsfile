@@ -27,10 +27,13 @@ node {
                         configName: 'My Web Server', 
                         transfers: [
                             sshTransfer(
-                                execCommand: "mkdir -p python-app && cd python-app && mkdir matiusrimbe",  
+                                remoteDirectory: '/python-app',  
+                                removePrefix: 'sources/dist/', 
+                                sourceFiles: 'sources/dist/add2vals'
+                                execCommand: "cd /python-app && docker run --rm -v /python-app/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller -F add2vals.py'", 
                             )
                         ], 
-                        verbose: true
+                        verbose: false
                     )
                 ]
             )
