@@ -39,7 +39,7 @@ node {
         //     verbose: true
         // )
 
-        sh "ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@13.250.14.198 \"$remoteCommand\""
+        sh "ssh -o StrictHostKeyChecking=no -i ubuntu@13.250.14.198 \"$remoteCommand\""
 
         sleep time: 1, unit: 'MINUTES'
 
