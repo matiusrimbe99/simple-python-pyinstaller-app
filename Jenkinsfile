@@ -27,17 +27,34 @@ node {
 
         
 
+        // sshPublisher(
+        //     configName: 'My Web Server',
+        //     transfers: [
+        //         sshTransfer(
+        //             sourceFiles: 'sources/dist/add2vals',
+        //             removePrefix: 'sources/dist/',
+        //             remoteDirectory: remoteDir
+        //         )
+        //     ],
+        //     verbose: true
+        //     execCommand: "ssh -o StrictHostKeyChecking=no -i ubuntu@13.250.14.198 \"$remoteCommand\""
+        // )
+
         sshPublisher(
-            configName: 'My Web Server',
-            transfers: [
-                sshTransfer(
-                    sourceFiles: 'sources/dist/add2vals',
-                    removePrefix: 'sources/dist/',
-                    remoteDirectory: remoteDir
+            publishers: [
+                sshPublisherDesc(
+                    configName: 'My Web Server', 
+                    transfers: [
+                        sshTransfer(
+                            execCommand: 'ssh -o StrictHostKeyChecking=no -i ubuntu@13.250.14.198 \\"$remoteCommand\\"',  
+                            remoteDirectory: '/python-app',  
+                            removePrefix: 'sources/dist/', 
+                            sourceFiles: 'sources/dist/add2vals'
+                        )
+                    ], 
+                    verbose: false
                 )
-            ],
-            verbose: true
-            execCommand: "ssh -o StrictHostKeyChecking=no -i ubuntu@13.250.14.198 \"$remoteCommand\""
+            ]
         )
 
         sleep time: 1, unit: 'MINUTES'
