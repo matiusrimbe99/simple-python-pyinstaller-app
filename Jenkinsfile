@@ -31,7 +31,8 @@ node {
                             sshTransfer(
                                 remoteDirectory: '/python-app',  
                                 removePrefix: "${env.BUILD_ID}/sources/dist/", 
-                                sourceFiles: "${env.BUILD_ID}/sources/dist/add2vals"
+                                sourceFiles: "${env.BUILD_ID}/sources/dist/add2vals",
+                                execCommand: "chmod a+x add2vals"
                             )
                         ], 
                         verbose: true
