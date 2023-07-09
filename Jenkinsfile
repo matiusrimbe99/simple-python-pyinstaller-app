@@ -27,13 +27,11 @@ node {
                         configName: 'My Web Server', 
                         transfers: [
                             sshTransfer(
-                                execCommand: "ssh -o StrictHostKeyChecking=no -i ubuntu@13.250.14.198 \"cd /python-app && docker run --rm -v /python-app/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller -F add2vals.py'\"",  
-                                remoteDirectory: '/python-app',  
-                                removePrefix: 'sources/dist/', 
-                                sourceFiles: 'sources/dist/add2vals'
+                                execCommand: "ssh -o StrictHostKeyChecking=no -i ubuntu@13.250.14.198 \"cd /python-app && mkdir matiusrimbe\"",  
+                                remoteDirectory: '/python-app',
                             )
                         ], 
-                        verbose: false
+                        verbose: true
                     )
                 ]
             )
