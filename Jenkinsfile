@@ -16,10 +16,10 @@ node {
     stage('Manual Approval') {
       input message: 'Lanjutkan ke tahap Deploy?'
       stage('Deploy') {
-        dir("${env.BUILD_ID}") {
-            unstash 'compiled-results'
-            sh "docker run --rm -v ${pwd()}/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller -F add2vals.py'"
-        }
+        // dir("${env.BUILD_ID}") {
+        //     unstash 'compiled-results'
+        //     sh "docker run --rm -v ${pwd()}/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller -F add2vals.py'"
+        // }
 
         withCredentials([sshUserPrivateKey(credentialsId: '13.250.14.198', keyFileVariable: '13.250.14.198', usernameVariable: 'ubuntu')]) {
             sshPublisher(
@@ -29,14 +29,17 @@ node {
                         transfers: [
                             sshTransfer(
                                 remoteDirectory: '/python-app',  
-                                removePrefix: '${env.BUILD_ID}/sources/dist/', 
-                                sourceFiles: '${env.BUILD_ID}/sources/dist/add2vals',
+                                removePrefix: 'sources/dist/', 
+                                sourceFiles: 'sources/dist/add2vals',
                             )
                         ], 
                         verbose: true
                     )
                 ]
             )
+            
+            unstash 'compiled-results'
+            sh "docker run --rm -v ${pwd()}/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller -F add2vals.py'"
         }
 
         // sleep time: 1, unit: 'MINUTES'
